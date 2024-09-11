@@ -1,8 +1,98 @@
 name: Build
 on:
+  schedule:
+    # Run nightly at 00:00
+    - cron: '0 0 * * *'
+
   workflow_dispatch:
+    inputs:
+      otp-ref-name:
+        required: true
+      otp-ref:
+        required: true
+      openssl-version:
+        default: "3.1.6"
+      wxwidgets-version:
+        default: "3.2.6"
 jobs:
-  build:
+  schedule:
+    name: "Schedule nightly"
+    if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
     steps:
-      - run: echo "Hello, World!"
+      - name: "Schedule nightly"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ref=$(gh api repos/erlang/otp/commits/master --jq .sha)
+          gh workflow run --repo "${GITHUB_REPOSITORY}" build.yml --field otp-ref-name=master --field otp-ref=$ref
+
+          ref=$(gh api repos/erlang/otp/commits/maint --jq .sha)
+          gh workflow run --repo "${GITHUB_REPOSITORY}" build.yml --field otp-ref-name=maint --field otp-ref=$ref
+
+  build_macos:
+    name: "Build ${{ inputs.otp-ref-name }}-macos-${{ matrix.pair.arch }}"
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ${{ matrix.pair.os }}
+    permissions:
+      actions: write
+      contents: write
+    env:
+      OTP_REF_NAME: ${{ inputs.otp-ref-name }}
+      OPENSSL_VERSION: ${{ inputs.openssl-version }}
+      OPENSSL_DIR: /tmp/builds/openssl-${{ inputs.openssl-version }}-macos-${{ matrix.pair.arch }}
+      WXWIDGETS_VERSION: ${{ inputs.wxwidgets-version }}
+      WXWIDGETS_DIR: /tmp/builds/wxwidgets-${{ inputs.wxwidgets-version }}-macos-${{ matrix.pair.arch }}
+      OTP_DIR: /tmp/builds/otp-${{ inputs.otp-ref-name }}-${{ inputs.otp-ref }}-openssl-${{ inputs.openssl-version }}-wxwidgets-${{ inputs.wxwidgets-version }}-macos-${{ matrix.pair.arch }}
+      OTP_REF: ${{ inputs.otp-ref }}
+    strategy:
+      matrix:
+        include:
+          - pair:
+              os: macos-13
+              arch: amd64
+          - pair:
+              os: macos-14
+              arch: arm64
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.OPENSSL_DIR }}
+          key: openssl-${{ env.OPENSSL_VERSION }}-macos-${{ matrix.pair.arch }}
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.WXWIDGETS_DIR }}
+          key: wxwidgets-${{ env.WXWIDGETS_VERSION }}-macos-${{ matrix.pair.arch }}
+
+      # Uncomment when testing
+      - uses: actions/cache@v4
+        id: otp-cache
+        with:
+          path: ${{ env.OTP_DIR }}
+          key: otp-${{ env.OTP_REF }}-openssl-${{ env.OPENSSL_VERSION }}-wxwidgets-${{ env.WXWIDGETS_VERSION }}-macos-${{ matrix.pair.arch }}
+
+      - name: "Build OTP"
+        # Uncomment `if` when testing
+        if: steps.otp-cache.outputs.cache-hit != 'true'
+        run: |
+          bash scripts/build_otp_macos.bash "${{ env.OTP_REF_NAME }}"
+
+      - name: "Upload"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tgz="$OTP_REF_NAME-macos-${{ matrix.pair.arch }}.tar.gz"
+          tar czf $tgz --cd $OTP_DIR .
+          gh release create  $OTP_REF_NAME || true
+          gh release upload --clobber $OTP_REF_NAME $tgz
+          gh workflow run update_builds_txt.yaml \
+            --repo "${GITHUB_REPOSITORY}" \
+            --ref "${GITHUB_REF}" \
+            --field otp-ref-name="${OTP_REF_NAME}" \
+            --field otp-ref="${OTP_REF}" \
+            --field arch=${{ matrix.pair.arch }}

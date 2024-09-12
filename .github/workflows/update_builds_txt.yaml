@@ -47,12 +47,18 @@ jobs:
             GIT_AUTHOR_EMAIL="${{ github.actor }}@users.noreply.github.com" \
             GIT_COMMITTER_NAME="github-actions[bot]" \
             GIT_COMMITTER_EMAIL="github-actions[bot]@users.noreply.github.com" \
-              git commit -m "Add ${{ env.OTP_REF_NAME }} to ${{ env.BUILDS_TXT }}"
+              git commit -m "${{ env.BUILDS_TXT }}: Add ${{ env.OTP_REF_NAME }}"
             git push origin $target_branch
           }
 
-          url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${OTP_REF_NAME}/${TGZ}"
-          curl --fail -LO "${url}"
+          if [[ "${OTP_REF_NAME}" == master ]] || [[ "${OTP_REF_NAME}" == maint* ]]; then
+            ref_name="${OTP_REF_NAME}-latest"
+          else
+            ref_name="${OTP_REF_NAME}"
+          fi
+          url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${ref_name}/${TGZ}"
+          echo downloading $url
+          curl -fsSLO "${url}"
 
           max_retries=5
           attempt=0

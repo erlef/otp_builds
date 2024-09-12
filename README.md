@@ -11,7 +11,35 @@ Supported architectures:
   * `amd64`
   * `arm64`
 
+The goal of these builds is to be as self-contained as possible. OpenSSL (used
+by `crypto` app) and wxWidgets (used by `wx` app and it's dependants,
+`observer`, `debugger`, and `et`) are statically linked.
+
 ## List of Builds
+
+| Target                      | OpenSSL | wxWidgets                 |
+| --------------------------- | ------- | ------------------------- |
+| **OTP 25**                  |         |                           |
+| `macos-amd64`               | 3.1.6   | N/A <sup>2</sup>          |
+| `macos-arm64` <sup>1</sup>  | 3.1.6   | N/A <sup>2</sup>          |
+| **OTP 26**                  |         |                           |
+| `macos-amd64`               | 3.1.6   | N/A <sup>2</sup> / 3.2.5  |
+| `macos-arm64`               | 3.1.6   | N/A <sup>2</sup> / 3.2.5  |
+| **OTP 27**                  |         |                           |
+| `macos-amd64`               | 3.1.6   | 3.2.5                     |
+| `macos-arm64`               | 3.1.6   | 3.2.5                     |
+| **OTP maint** <sup>3</sup>  |         |                           |
+| `macos-amd64`               | 3.1.6   | 3.2.5                     |
+| `macos-arm64`               | 3.1.6   | 3.2.5                     |
+| **OTP master** <sup>3</sup> |         |                           |
+| `macos-amd64`               | 3.1.6   | 3.2.5                     |
+| `macos-arm64`               | 3.1.6   | 3.2.5                     |
+
+<sup>1</sup> JIT is disabled on OTP 25 on macos-arm64.
+
+<sup>2</sup> `wx`, `observer`, `debugger`, and `et` apps are only available since OTP 26.1.1.
+
+<sup>3</sup> OTP maint and master builds are updated daily.
 
 List of builds can be found here:
 

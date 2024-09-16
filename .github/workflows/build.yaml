@@ -39,7 +39,6 @@ jobs:
     permissions:
       actions: write
       contents: write
-    environment: production
     env:
       OTP_REF_NAME: ${{ inputs.otp-ref-name }}
       OPENSSL_VERSION: ${{ inputs.openssl-version }}

@@ -1,5 +1,8 @@
 name: Build
 on:
+  push: 
+    branches:
+      - bp-initial-fix
   schedule:
     # Run nightly at 00:00
     - cron: '0 0 * * *'

@@ -120,6 +120,7 @@ build_otp() {
   (
     cd $src_dir
     git clean -dfx
+    echo ".github/workflows/*" >> .gitignore
     export ERL_TOP=$PWD
     export ERLC_USE_SERVER=true
 

@@ -84,12 +84,7 @@ jobs:
 
       - name: "Upload"
         env:
-          # This is a personal access token for user wojtekmach-erlef-bot that has write access.
-          # We need a token with `workflows` permissions because by pushing git tags
-          # (from upstream, erlang/otp) we're modifying workflow files (.github/workflows)
-          # on those tags and that is restricted. Perhaps this would be not necessary if this repo
-          # was a _fork_ of erlang/otp.
-          GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [[ "${OTP_REF_NAME}" == master ]] || [[ "${OTP_REF_NAME}" == maint* ]]; then
             ref_name="${OTP_REF_NAME}-latest"

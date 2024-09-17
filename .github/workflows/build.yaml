@@ -107,8 +107,6 @@ jobs:
             ref_name="${OTP_REF_NAME}"
           fi
 
-          git remote add upstream https://github.com/erlang/otp
-          git fetch upstream
           git tag $ref_name $OTP_REF --force
           git push origin $ref_name --force
 

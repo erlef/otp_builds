@@ -1,0 +1,26 @@
+---
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch: {}
+
+name: Checks
+
+jobs:
+  checks:
+    name: Checks
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4.1.7
+
+      - name: ShellCheck
+        uses: luizm/action-sh-checker@v0.9.0
+        env:
+          SHELLCHECK_OPTS: -o all
+          SHFMT_OPTS: -i 4 -d

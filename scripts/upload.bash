@@ -18,8 +18,10 @@ main() {
 
   if [ "${OTP_REF_NAME}" = master ] || echo "${OTP_REF_NAME}" | grep -q "^maint"; then
     ref_name="${OTP_REF_NAME}-latest"
+    notes="Automated build for https://github.com/erlang/otp/tree/${OTP_REF_NAME}."
   else
     ref_name="${OTP_REF_NAME}"
+    notes="Automated build for https://github.com/erlang/otp/releases/tag/${OTP_REF_NAME}."
   fi
 
   # TODO:
@@ -47,9 +49,9 @@ main() {
 
     gh release create \
       --repo "${GITHUB_REPOSITORY}" \
-      --title $ref_name \
-      --notes "Automated build for https://github.com/erlang/otp/tree/${OTP_REF_NAME}." \
-      --target $target \
+      --title "$ref_name" \
+      --notes "$notes" \
+      --target "$target" \
       $latest \
       $ref_name
   fi

@@ -56,6 +56,9 @@ jobs:
           - pair:
               os: macos-14
               arch: arm64
+          - pair:
+              os: macos-latest
+              arch: arm64
     steps:
       - uses: actions/checkout@v4
 
@@ -83,6 +86,7 @@ jobs:
           bash scripts/build_otp_macos.bash "${{ env.OTP_REF_NAME }}"
 
       - name: "Upload"
+        if: matrix.pair.os != 'macos-latest'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

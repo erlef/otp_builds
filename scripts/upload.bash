@@ -24,12 +24,6 @@ main() {
     notes="Automated build for https://github.com/erlang/otp/releases/tag/${OTP_REF_NAME}."
   fi
 
-  # TODO:
-  # git remote add upstream https://github.com/erlang/otp
-  # git fetch upstream
-  # git tag $ref_name $OTP_REF --force
-  # git push origin $ref_name --force
-
   if ! gh release view $ref_name; then
     if ! echo "$ref_name" | grep -qE 'rc|maint|master'; then
       latest="--latest=false"

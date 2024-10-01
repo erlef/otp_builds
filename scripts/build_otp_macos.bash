@@ -112,7 +112,7 @@ test_otp() {
     ok = crypto:start(), io:format("crypto ok~n"),
     halt().'
 
-  if dyld_info ${OTP_DIR}/lib/crypto-*/priv/lib/crypto.so | grep -q openssl; then
+  if dyld_info ${OTP_DIR}/lib/crypto-*/priv/lib/crypto.so | tail -n +2 | grep -q openssl; then
     echo "error: openssl dynamically linked"
     exit 1
   fi
@@ -122,7 +122,7 @@ test_otp() {
       wx:new(), io:format("wx ok~n"),
       halt().'
 
-    if dyld_info ${OTP_DIR}/lib/wx-*/priv/wxe_driver.so | grep -q wxwidgets; then
+    if dyld_info ${OTP_DIR}/lib/wx-*/priv/wxe_driver.so | tail -n +2 | grep -q wxwidgets; then
       echo "error: wx dynamically linked"
       exit 1
     fi

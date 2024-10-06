@@ -25,9 +25,9 @@ main() {
   fi
 
   if ! gh release view $ref_name; then
-    if ! echo "$ref_name" | grep -qE 'rc|maint|master'; then
-      latest="--latest=false"
+    latest="--latest=false"
 
+    if ! echo "$ref_name" | grep -qE 'rc|maint|master'; then
       if [ -f builds/macos-arm64.txt ]; then
         latest_version=`cat builds/macos-arm64.txt | cut -d" " -f1 | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1`
         version=$(echo "$ref_name" | sed 's/OTP-//')

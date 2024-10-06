@@ -18,7 +18,7 @@ main() {
 
   if [ "${OTP_REF_NAME}" = master ] || echo "${OTP_REF_NAME}" | grep -q "^maint"; then
     ref_name="${OTP_REF_NAME}-latest"
-    notes="Automated build for https://github.com/erlang/otp/tree/${OTP_REF_NAME}."
+    notes="Automated build for https://github.com/erlang/otp/commit/${OTP_REF}."
   else
     ref_name="${OTP_REF_NAME}"
     notes="Automated build for https://github.com/erlang/otp/releases/tag/${OTP_REF_NAME}."

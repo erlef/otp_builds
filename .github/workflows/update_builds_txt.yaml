@@ -1,8 +1,27 @@
 name: Update builds.txt
 on:
   workflow_dispatch:
+    inputs:
+      otp-ref-name:
+        required: true
+      otp-ref:
+        required: true
+      arch:
+        required: true
 jobs:
-  build:
+  update_builds:
+    name: "Update builds/"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      OTP_REF_NAME: "${{ inputs.otp-ref-name }}"
+      OTP_REF: "${{ inputs.otp-ref }}"
+      TGZ: "${{ inputs.otp-ref-name }}-macos-${{ inputs.arch }}.tar.gz"
+      BUILDS_TXT: "builds/macos-${{ inputs.arch }}.txt"
     steps:
-      - run: echo "Hello, World!"
+      - uses: actions/checkout@v4
+
+      - name: "Add ${{ env.OTP_REF_NAME }} to ${{ env.BUILDS_TXT }}"
+        run: |
+          ./scripts/update_builds_txt.bash

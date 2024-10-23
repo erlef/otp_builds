@@ -1,4 +1,4 @@
-name: Update builds.txt
+name: Update builds.csv
 on:
   workflow_dispatch:
 jobs:

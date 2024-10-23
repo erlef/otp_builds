@@ -51,7 +51,7 @@ Where `{ref_name}` is the Erlang/OTP git tag or branch name, `{ref}` is the git 
 
 Example `builds/aarch64-apple-darwin.csv` entry:
 
-    OTP-27.0.1,ee9628e7ed09ef02e767994a6da5b7a225316aaa,2024-09-12T10:53:59Z,a805cd23cd5362a294d1e88fa0919192b0f4cbe5601f906167c11a2b57c98ac4
+    OTP-27.1.2,44ffe8811dfcf3d2fe04d530c6e8fac5ca384e02,2024-10-23T21:02:30Z,9c49d2dc3f0f073b58d7ae9f6cfbcc422dafdb3a85351dcb8efdab3632b4413c,openssl-3.1.6,wxwidgets-3.2.6
 
 ## Build Downloads
 

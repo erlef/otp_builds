@@ -40,8 +40,8 @@ The goal of these builds is to be as self-contained as possible. OpenSSL (used b
 
 List of builds can be found here:
 
-  * `x86_64-apple-darwin` - <https://github.com/erlef/otp_builds/raw/builds/x86_64-apple-darwin.csv>
-  * `aarch64-apple-darwin` - <https://github.com/erlef/otp_builds/raw/builds/aarch64-apple-darwin.csv>
+  * `x86_64-apple-darwin` - <https://github.com/erlef/otp_builds/raw/main/builds/x86_64-apple-darwin.csv>
+  * `aarch64-apple-darwin` - <https://github.com/erlef/otp_builds/raw/main/builds/aarch64-apple-darwin.csv>
 
 Entries in the list of builds follow this pattern:
 
@@ -69,7 +69,7 @@ Example build URLs:
 After downloading the build you should verify its integrity against builds csv mentioned in the previous section, for example:
 
     $ curl -fLO https://github.com/erlef/otp_builds/releases/download/OTP-27.1.2/OTP-27.1.2-aarch64-apple-darwin.tar.gz
-    $ checksum=`curl -fsSL https://github.com/erlef/otp_builds/raw/builds/aarch64-apple-darwin.csv | grep OTP-27.1.2, | cut -d"," -f4`
+    $ checksum=`curl -fsSL https://github.com/erlef/otp_builds/raw/main/builds/aarch64-apple-darwin.csv | grep OTP-27.1.2, | cut -d"," -f4`
     $ sha256 OTP-27.1.2-aarch64-apple-darwin.tar.gz --check $checksum
 
 ## License

@@ -1,8 +1,33 @@
 name: Update builds.csv
 on:
   workflow_dispatch:
+    inputs:
+      otp-ref-name:
+        required: true
+      otp-ref:
+        required: true
+      openssl-version:
+        required: true
+      wxwidgets-version:
+        required: true
+      target:
+        required: true
 jobs:
-  build:
+  update_builds:
+    name: "Update builds/"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      OTP_REF_NAME: "${{ inputs.otp-ref-name }}"
+      OTP_REF: "${{ inputs.otp-ref }}"
+      OPENSSL_VERSION: "${{ inputs.openssl-version }}"
+      WXWIDGETS_VERSION: "${{ inputs.wxwidgets-version }}"
+      TGZ: "${{ inputs.otp-ref-name }}-${{ inputs.target }}.tar.gz"
+      BUILDS_CSV: "builds/${{ inputs.target }}.csv"
     steps:
-      - run: echo "Hello, World!"
+      - uses: actions/checkout@v4
+
+      - name: "Add ${{ env.OTP_REF_NAME }} to ${{ env.BUILDS_CSV }}"
+        run: |
+          ./scripts/update_builds.bash

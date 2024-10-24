@@ -27,10 +27,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ref=$(gh api repos/erlang/otp/commits/master --jq .sha)
-          gh workflow run --repo "${GITHUB_REPOSITORY}" build.yml --field otp-ref-name=master --field otp-ref=$ref
+          gh workflow run --repo "${GITHUB_REPOSITORY}" build.yaml --field otp-ref-name=master --field otp-ref=$ref
 
           ref=$(gh api repos/erlang/otp/commits/maint --jq .sha)
-          gh workflow run --repo "${GITHUB_REPOSITORY}" build.yml --field otp-ref-name=maint --field otp-ref=$ref
+          gh workflow run --repo "${GITHUB_REPOSITORY}" build.yaml --field otp-ref-name=maint --field otp-ref=$ref
 
   build_macos:
     name: "Build ${{ inputs.otp-ref-name }}-${{ matrix.pair.target }} (${{ matrix.pair.os }})"

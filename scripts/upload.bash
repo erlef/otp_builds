@@ -31,15 +31,19 @@ main() {
   fi
 
   if ! gh release view "${ref_name}"; then
-    latest="--latest=false"
+    extra_flag="--latest=false"
 
-    if ! echo "${ref_name}" | grep -qE 'rc|maint|master'; then
-      if [[ -f builds/aarch64-apple-darwin.csv ]]; then
-        latest_version=`cat builds/aarch64-apple-darwin.csv | cut -d"," -f1 | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1`
-        version=$(echo "$ref_name" | sed 's/OTP-//')
+    if echo "${ref_name}" | grep -qE 'rc'; then
+      extra_flag="--prerelease"
+    else
+      if ! echo "${ref_name}" | grep -qE 'maint|master'; then
+        if [[ -f builds/aarch64-apple-darwin.csv ]]; then
+          latest_version=`cat builds/aarch64-apple-darwin.csv | cut -d"," -f1 | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1`
+          version=$(echo "$ref_name" | sed 's/OTP-//')
 
-        if [[ $(printf "%s\n%s" "$latest_version" "$version" | sort --reverse -V | head -1) != "$latest_version" ]]; then
-          latest="--latest"
+          if [[ $(printf "%s\n%s" "$latest_version" "$version" | sort --reverse -V | head -1) != "$latest_version" ]]; then
+            extra_flag="--latest"
+          fi
         fi
       fi
     fi
@@ -52,7 +56,7 @@ main() {
       --title "${ref_name}" \
       --notes "${notes}" \
       --target "${target}" \
-      "${latest}" \
+      "${extra_flag}" \
       "${ref_name}"
   fi
 

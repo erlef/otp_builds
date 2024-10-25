@@ -42,14 +42,14 @@ jobs:
       id-token: write
       attestations: write
     env:
-      OTP_REF_NAME: ${{ inputs.otp-ref-name }}
       OPENSSL_VERSION: ${{ inputs.openssl-version }}
       OPENSSL_DIR: /tmp/openssl-${{ matrix.pair.target }}
+      OTP_REF: ${{ inputs.otp-ref }}
+      OTP_REF_NAME: ${{ inputs.otp-ref-name }}
+      OTP_DIR: /tmp/otp-${{ matrix.pair.target }}
+      OTP_TGZ: /tmp/otp.tar.gz
       WXWIDGETS_VERSION: ${{ inputs.wxwidgets-version }}
       WXWIDGETS_DIR: /tmp/wxwidgets-${{ matrix.pair.target }}
-      OTP_DIR: /tmp/otp-${{ matrix.pair.target }}
-      OTP_REF: ${{ inputs.otp-ref }}
-      OTP_TGZ: /tmp/otp.tar.gz
     strategy:
       fail-fast: false
       matrix:
@@ -64,7 +64,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Update OPENSSL_VERSION
-        if: contains(env.OTP_VERSION, 'OTP-25')
+        if: ${{ contains(env.OTP_REF_NAME, 'OTP-25') || contains(env.OTP_REF_NAME, 'maint-25') }}
         run: echo "OPENSSL_VERSION=1.1.1w" >> $GITHUB_ENV
 
       - uses: actions/cache@v4

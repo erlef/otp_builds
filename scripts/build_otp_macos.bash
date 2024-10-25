@@ -206,15 +206,29 @@ build_otp() {
       --host=$OTP_ARCH-apple-darwin \
       --with-ssl=${OPENSSL_DIR} \
       --disable-dynamic-ssl-lib \
+      --enable-builtin-zlib \
       $jit_flags \
       $wxwidgets_flags
 
     make release
+
     cd ${rel_dir}
     ./Install -sasl $PWD
 
     # Remove Install since the release is relocatable anyway
     rm Install
+
+    # Build liberl_private.a, which is useful for statically linking OTP into apps. It's not
+    # part of default distribution, hence "private".
+    libs=`find $src_dir \
+      -not -name "*_st.a" \
+      -not -name "*_r.a" \
+      -name "*.a" | \
+      awk '{ "basename " $1 | getline name; names[name] = $1 } END { for (n in names) { print names[n] }}'`
+    echo
+    echo Building liberl_private.a with $libs
+    mkdir -p $rel_dir/usr/lib
+    libtool -static -o $rel_dir/usr/lib/liberl_private.a $libs
   )
 
   export PATH="${rel_dir}/bin:$PATH"

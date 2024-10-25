@@ -63,6 +63,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Update OPENSSL_VERSION
+        if: contains(env.OTP_VERSION, 'OTP-25')
+        run: echo "OPENSSL_VERSION=1.1.1w" >> $GITHUB_ENV
+
       - uses: actions/cache@v4
         with:
           path: ${{ env.OPENSSL_DIR }}

@@ -74,4 +74,4 @@ After downloading the build you should verify its integrity against builds csv m
 
 ## License
 
-[Apache-2.0](./LICENSE.md)
+[Apache-2.0](./LICENSE)

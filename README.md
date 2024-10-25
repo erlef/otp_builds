@@ -63,22 +63,26 @@ Example `builds/aarch64-apple-darwin.csv` entry:
 
 Build download URLs follow this pattern:
 
-    https://github.com/erlef/otp_builds/releases/download/{ref_name}/{ref_name}-{target}.tar.gz
+    https://github.com/erlef/otp_builds/releases/download/{ref_name}/otp-{target}.tar.gz
 
 Where `{ref_name}` is the name of Erlang/OTP git tag or branch name and `{target}` is the target
 triple (e.g. `aarch64-apple-darwin`). The supported Erlang/OTP branches are `master` and `maint`.
 
 Example build URLs:
 
-* <https://github.com/erlef/otp_builds/releases/download/OTP-27.0.1/OTP-27.0.1-aarch64-apple-darwin.tar.gz>
-* <https://github.com/erlef/otp_builds/releases/download/master/master-x86_64-apple-darwin.tar.gz>
+* <https://github.com/erlef/otp_builds/releases/download/master/otp-x86_64-apple-darwin.tar.gz>
+* <https://github.com/erlef/otp_builds/releases/download/OTP-27.0.1/otp-aarch64-apple-darwin.tar.gz>
+
+To download from the _latest_ release, use this URL:
+
+* <https://github.com/erlef/otp_builds/releases/latest/download/otp-aarch64-apple-darwin.tar.gz>
 
 After downloading the build you should verify its integrity against builds csv mentioned in the
 previous section, for example:
 
-    curl -fLO https://github.com/erlef/otp_builds/releases/download/OTP-27.1.2/OTP-27.1.2-aarch64-apple-darwin.tar.gz
+    curl -fLO https://github.com/erlef/otp_builds/releases/download/OTP-27.1.2/otp-aarch64-apple-darwin.tar.gz
     checksum=$(curl -fsSL https://github.com/erlef/otp_builds/raw/main/builds/aarch64-apple-darwin.csv | grep OTP-27.1.2, | cut -d"," -f4)
-    sha256 OTP-27.1.2-aarch64-apple-darwin.tar.gz --check $checksum
+    sha256 otp-aarch64-apple-darwin.tar.gz --check $checksum
 
 ## License
 

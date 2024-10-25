@@ -98,7 +98,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ATTESTATION: ${{ steps.attest-build-provenance.outputs.bundle-path }}
-          OPENSSL_VERSION: ${{ inputs.openssl-version }}
           WXWIDGETS_VERSION: ${{ inputs.wxwidgets-version }}
         run: |
           ./scripts/upload.bash

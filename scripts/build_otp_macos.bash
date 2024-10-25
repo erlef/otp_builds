@@ -52,7 +52,11 @@ build_openssl() {
     return
   fi
 
-  local ref_name="openssl-${version}"
+  if [[ $version == 3* ]]; then
+    local ref_name="openssl-${version}"
+  else
+    local ref_name="OpenSSL_${version//./_}"
+  fi
   local url="https://github.com/openssl/openssl"
 
   if [[ ! -d ${src_dir} ]]; then

@@ -73,7 +73,7 @@ main() {
   esac
 
   mkdir -p /tmp/otp_builds
-  tgz="/tmp/otp_builds/${OTP_REF_NAME}-${target}.tar.gz"
+  tgz="/tmp/otp_builds/otp-${target}.tar.gz"
   cp "${OTP_TGZ}" "${tgz}"
   legacy_tgz="/tmp/otp_builds/${OTP_REF_NAME}-${legacy_target}.tar.gz"
   cp "${OTP_TGZ}" "${legacy_tgz}"

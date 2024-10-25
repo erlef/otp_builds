@@ -23,7 +23,7 @@ jobs:
       OTP_REF: "${{ inputs.otp-ref }}"
       OPENSSL_VERSION: "${{ inputs.openssl-version }}"
       WXWIDGETS_VERSION: "${{ inputs.wxwidgets-version }}"
-      TGZ: "${{ inputs.otp-ref-name }}-${{ inputs.target }}.tar.gz"
+      TGZ: "otp-${{ inputs.target }}.tar.gz"
       BUILDS_CSV: "builds/${{ inputs.target }}.csv"
     steps:
       - uses: actions/checkout@v4

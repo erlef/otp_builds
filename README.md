@@ -24,10 +24,10 @@ statically linked.
 | Target                  | OpenSSL | wxWidgets            |
 |-------------------------|---------|----------------------|
 | **OTP 25**              |         |                      |
-| `x86_64-apple-darwin`   | 3.1.6   | N/A ²                |
-| `aarch64-apple-darwin`¹ | 3.1.6   | N/A ²                |
+| `x86_64-apple-darwin`   | 1.1.1w  | N/A²                 |
+| `aarch64-apple-darwin`¹ | 1.1.1w  | N/A²                 |
 | **OTP 26**              |         |                      |
-| `*-apple-darwin`        | 3.1.6   | N/A ² / 3.2.5        |
+| `*-apple-darwin`        | 3.1.6   | N/A² / 3.2.5         |
 | **OTP 27**              |         |                      |
 | `*-apple-darwin`        | 3.1.6   | 3.2.5                |
 | **OTP maint**³          |         |                      |

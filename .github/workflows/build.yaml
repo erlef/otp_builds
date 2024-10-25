@@ -77,12 +77,12 @@ jobs:
           path: ${{ env.WXWIDGETS_DIR }}
           key: wxwidgets-${{ env.WXWIDGETS_VERSION }}-${{ matrix.pair.target }}
 
-      # Uncomment when testing
-      - uses: actions/cache@v4
-        id: otp-cache
-        with:
-          path: ${{ env.OTP_DIR }}
-          key: otp-${{ env.OTP_REF_NAME }}-${{ env.OTP_REF }}-openssl-${{ env.OPENSSL_VERSION }}-wxwidgets-${{ env.WXWIDGETS_VERSION }}-${{ matrix.pair.target }}
+      # # Uncomment when testing
+      # - uses: actions/cache@v4
+      #   id: otp-cache
+      #   with:
+      #     path: ${{ env.OTP_DIR }}
+      #     key: otp-${{ env.OTP_REF_NAME }}-${{ env.OTP_REF }}-openssl-${{ env.OPENSSL_VERSION }}-wxwidgets-${{ env.WXWIDGETS_VERSION }}-${{ matrix.pair.target }}
 
       - name: "Build OTP"
         run: |

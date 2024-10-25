@@ -10,22 +10,22 @@ main() {
     ref_name="${OTP_REF_NAME}"
   fi
   url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${ref_name}/${TGZ}"
-  echo downloading $url
+  echo "downloading ${url}"
   curl -fsSLO "${url}"
 
   max_retries=5
   attempt=0
-  while [ $attempt -lt $max_retries ]; do
+  while [[ ${attempt} -lt ${max_retries} ]]; do
     if push; then
       break
     fi
     attempt=$((attempt + 1))
-    echo "Retry $attempt/$max_retries failed. Retrying in 10 seconds..."
+    echo "Retry ${attempt}/${max_retries} failed. Retrying in 10 seconds..."
     sleep 10
   done
 
-  if [ $attempt -eq $max_retries ]; then
-    echo "Reached maximum retries ($max_retries). Exiting."
+  if [ ${attempt} -eq ${max_retries} ]; then
+    echo "Reached maximum retries (${max_retries}). Exiting."
     exit 1
   fi
 }
@@ -33,9 +33,9 @@ main() {
 push() {
   local target_branch=main
 
-  git checkout $target_branch
-  git reset --hard origin/$target_branch
-  git pull origin $target_branch
+  git checkout "${target_branch}"
+  git reset --hard "origin/${target_branch}"
+  git pull origin "${target_branch}"
   build_sha256=$(shasum -a 256 $TGZ | cut -d ' ' -f 1)
   date=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
   mkdir -p builds/
@@ -50,7 +50,7 @@ push() {
   GIT_COMMITTER_NAME="github-actions[bot]" \
   GIT_COMMITTER_EMAIL="github-actions[bot]@users.noreply.github.com" \
     git commit -m "${BUILDS_CSV}: Add ${OTP_REF_NAME}"
-  git push origin $target_branch
+  git push origin "${target_branch}"
 }
 
 main $@

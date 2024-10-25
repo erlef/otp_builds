@@ -62,7 +62,7 @@ build_openssl() {
   (
     cd "${src_dir}"
     git clean -dfx
-    ./config --prefix="${rel_dir}" ${CFLAGS}
+    ./config no-shared --prefix="${rel_dir}" ${CFLAGS}
     make
     make install_sw
   )

@@ -34,7 +34,7 @@ main() {
     extra_flag="--latest=false"
 
     if echo "${ref_name}" | grep -qE 'rc'; then
-      extra_flag="--prerelease"
+      extra_flag="--latest=false --prerelease"
     else
       if ! echo "${ref_name}" | grep -qE 'maint|master'; then
         if [[ -f builds/aarch64-apple-darwin.csv ]]; then

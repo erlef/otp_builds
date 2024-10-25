@@ -60,10 +60,6 @@ jobs:
           - pair:
               os: macos-14
               target: aarch64-apple-darwin
-          - pair:
-              os: macos-15
-              target: aarch64-apple-darwin
-              latest: latest
     steps:
       - uses: actions/checkout@v4
 
@@ -89,14 +85,12 @@ jobs:
           bash scripts/build_otp_macos.bash "${{ env.OTP_REF_NAME }}"
 
       - name: "Attest build provenance"
-        if: matrix.pair.latest != 'latest'
         uses: actions/attest-build-provenance@v1
         id: attest-build-provenance
         with:
           subject-path: ${{ env.OTP_TGZ }}
 
       - name: "Upload"
-        if: matrix.pair.latest != 'latest'
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           ATTESTATION: "${{ steps.attest-build-provenance.outputs.bundle-path }}"

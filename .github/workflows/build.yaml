@@ -92,8 +92,8 @@ jobs:
 
       - name: "Upload"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          ATTESTATION: "${{ steps.attest-build-provenance.outputs.bundle-path }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ATTESTATION: ${{ steps.attest-build-provenance.outputs.bundle-path }}
           OPENSSL_VERSION: ${{ inputs.openssl-version }}
           WXWIDGETS_VERSION: ${{ inputs.wxwidgets-version }}
         run: |

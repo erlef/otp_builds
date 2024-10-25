@@ -31,10 +31,10 @@ main() {
   fi
 
   if ! gh release view "${ref_name}"; then
-    extra_flag="--latest=false"
+    extra_flags="--latest=false"
 
     if echo "${ref_name}" | grep -qE 'rc'; then
-      extra_flag="--latest=false --prerelease"
+      extra_flags="--latest=false --prerelease"
     else
       if ! echo "${ref_name}" | grep -qE 'maint|master'; then
         if [[ -f builds/aarch64-apple-darwin.csv ]]; then
@@ -42,7 +42,7 @@ main() {
           version=$(echo "$ref_name" | sed 's/OTP-//')
 
           if [[ $(printf "%s\n%s" "$latest_version" "$version" | sort --reverse -V | head -1) != "$latest_version" ]]; then
-            extra_flag="--latest"
+            extra_flags="--latest"
           fi
         fi
       fi
@@ -56,7 +56,7 @@ main() {
       --title "${ref_name}" \
       --notes "${notes}" \
       --target "${target}" \
-      "${extra_flag}" \
+      ${extra_flags} \
       "${ref_name}"
   fi
 

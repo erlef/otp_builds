@@ -63,16 +63,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check OTP_REF_NAME
+        run: |
+          if [[ $OTP_REF_NAME =~ maint-([0-9]+) ]]; then
+            version="${BASH_REMATCH[1]}"
+          elif [[ $OTP_REF_NAME =~ OTP-([0-9]+)(\.[0-9]+)* ]]; then
+            version="${BASH_REMATCH[1]}"
+          else
+            version=25
+          fi
+
+          if [[ $version -lt 25 ]]; then
+            echo "skipping builds for OTP older than OTP-25"
+            echo "SKIP=true" >> $GITHUB_ENV
+          fi
+
       - name: Update OPENSSL_VERSION
         if: ${{ contains(env.OTP_REF_NAME, 'OTP-25') || contains(env.OTP_REF_NAME, 'maint-25') }}
         run: echo "OPENSSL_VERSION=1.1.1w" >> $GITHUB_ENV
 
       - uses: actions/cache@v4
+        if: ${{ env.SKIP != 'true' }}
         with:
           path: ${{ env.OPENSSL_DIR }}
           key: openssl-${{ env.OPENSSL_VERSION }}-${{ matrix.pair.target }}
 
       - uses: actions/cache@v4
+        if: ${{ env.SKIP != 'true' }}
         with:
           path: ${{ env.WXWIDGETS_DIR }}
           key: wxwidgets-${{ env.WXWIDGETS_VERSION }}-${{ matrix.pair.target }}
@@ -85,16 +102,19 @@ jobs:
       #     key: otp-${{ env.OTP_REF_NAME }}-${{ env.OTP_REF }}-openssl-${{ env.OPENSSL_VERSION }}-wxwidgets-${{ env.WXWIDGETS_VERSION }}-${{ matrix.pair.target }}
 
       - name: "Build OTP"
+        if: ${{ env.SKIP != 'true' }}
         run: |
           bash scripts/build_otp_macos.bash "${{ env.OTP_REF_NAME }}"
 
       - name: "Attest build provenance"
+        if: ${{ env.SKIP != 'true' }}
         uses: actions/attest-build-provenance@v1
         id: attest-build-provenance
         with:
           subject-path: ${{ env.OTP_TGZ }}
 
       - name: "Upload"
+        if: ${{ env.SKIP != 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ATTESTATION: ${{ steps.attest-build-provenance.outputs.bundle-path }}

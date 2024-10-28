@@ -1,0 +1,29 @@
+name: Sync OTP versions
+on:
+  workflow_dispatch:
+  schedule:
+    # Run every 15min
+    - cron: '*/15 * * * *'
+jobs:
+  sync_otp_versions:
+    name: "Sync OTP versions"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.elixir-install
+          key: elixir-install
+
+      - name: "Sync OTP versions"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./scripts/elixir-install.sh elixir@1.17.3 otp@27.1.2
+          export PATH="$HOME/.elixir-install/installs/elixir/1.17.3/bin:$PATH"
+          export PATH="$HOME/.elixir-install/installs/otp/27.1.2/bin:$PATH"
+
+          ./scripts/sync_otp_versions.exs

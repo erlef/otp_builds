@@ -65,12 +65,13 @@ Build download URLs follow this pattern:
 
     https://github.com/erlef/otp_builds/releases/download/{ref_name}/otp-{target}.tar.gz
 
-Where `{ref_name}` is the name of Erlang/OTP git tag or branch name and `{target}` is the target
-triple (e.g. `aarch64-apple-darwin`). The supported Erlang/OTP branches are `master` and `maint`.
+Where `{ref_name}` is the name of Erlang/OTP release or branch and `{target}` is the target
+triple. Supported branch names are `maint-latest` and `master-latest` which correspond to
+Erlang/OTP `maint` and `master` branches.
 
 Example build URLs:
 
-* <https://github.com/erlef/otp_builds/releases/download/master/otp-x86_64-apple-darwin.tar.gz>
+* <https://github.com/erlef/otp_builds/releases/download/master-latest/otp-x86_64-apple-darwin.tar.gz>
 * <https://github.com/erlef/otp_builds/releases/download/OTP-27.0.1/otp-aarch64-apple-darwin.tar.gz>
 
 To download from the _latest_ release, use this URL:

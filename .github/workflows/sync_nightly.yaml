@@ -1,0 +1,23 @@
+name: Sync OTP versions
+on:
+  schedule:
+    # Run at 00:00
+    - cron: '0 0 * * *'
+jobs:
+  sync_otp_versions:
+    name: "Sync OTP versions"
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Sync nightly"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ref=$(gh api repos/erlang/otp/commits/master --jq .sha)
+          gh workflow run build.yaml --field otp-ref-name=master --field otp-ref=$ref
+
+          ref=$(gh api repos/erlang/otp/commits/maint --jq .sha)
+          gh workflow run build.yaml --field otp-ref-name=maint --field otp-ref=$ref

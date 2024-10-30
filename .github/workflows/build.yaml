@@ -1,9 +1,5 @@
 name: Build
 on:
-  schedule:
-    # Run nightly at 00:00
-    - cron: '0 0 * * *'
-
   workflow_dispatch:
     inputs:
       otp-ref-name:
@@ -15,26 +11,8 @@ on:
       wxwidgets-version:
         default: "3.2.6"
 jobs:
-  schedule:
-    name: "Schedule nightly"
-    if: github.event_name == 'schedule'
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-    steps:
-      - name: "Schedule nightly"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ref=$(gh api repos/erlang/otp/commits/master --jq .sha)
-          gh workflow run --repo "${GITHUB_REPOSITORY}" build.yaml --field otp-ref-name=master --field otp-ref=$ref
-
-          ref=$(gh api repos/erlang/otp/commits/maint --jq .sha)
-          gh workflow run --repo "${GITHUB_REPOSITORY}" build.yaml --field otp-ref-name=maint --field otp-ref=$ref
-
   build_macos:
     name: "Build ${{ inputs.otp-ref-name }}-${{ matrix.pair.target }} (${{ matrix.pair.os }})"
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ${{ matrix.pair.os }}
     permissions:
       actions: write

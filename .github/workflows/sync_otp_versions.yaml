@@ -2,8 +2,8 @@ name: Sync OTP versions
 on:
   workflow_dispatch:
   schedule:
-    # Run every 15min
-    - cron: '*/15 * * * *'
+    # Run every 30min
+    - cron: '*/30 * * * *'
 jobs:
   sync_otp_versions:
     name: "Sync OTP versions"

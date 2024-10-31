@@ -39,7 +39,7 @@ statically linked.
 
 ² `wx`, `observer`, `debugger`, and `et` apps are only available since OTP 26.1.1.
 
-³ OTP maint and master builds are updated daily.
+³ OTP `maint`, `maint-25`, `maint-26`, `maint-27`, and `master` builds are updated daily.
 
 List of builds can be found here:
 
@@ -66,8 +66,9 @@ Build download URLs follow this pattern:
     https://github.com/erlef/otp_builds/releases/download/{ref_name}/otp-{target}.tar.gz
 
 Where `{ref_name}` is the name of Erlang/OTP release or branch and `{target}` is the target
-triple. Supported branch names are `maint-latest` and `master-latest` which correspond to
-Erlang/OTP `maint` and `master` branches.
+triple. Supported branch names are `maint-latest`, `maint-25-latest`, `maint-26-latest`,
+`maint-27-latest`, and `master-latest` which correspond to Erlang/OTP `maint`, `maint-25`,
+`maint-26`, `maint-27`, and `master` branches.
 
 Example build URLs:
 

@@ -16,7 +16,7 @@ Supported architectures:
 * `aarch64`
 
 The goal of these builds is to be as self-contained as possible. OpenSSL (used by `crypto` app)
-and wxWidgets (used by `wx` app and it's dependants, `observer`, `debugger`, and `et`) are
+and wxWidgets (used by `wx` app and its dependants, `observer`, `debugger`, and `et`) are
 statically linked.
 
 ## List of Builds

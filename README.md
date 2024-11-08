@@ -1,8 +1,5 @@
 # OTP Builds
 
-> [!WARNING]
-> This is a work in progress.
-
 This is a collection of community-maintained
 [Erlang/OTP](https://github.com/erlang/otp) binary builds.
 

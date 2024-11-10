@@ -51,12 +51,13 @@ main() {
     # Initial commit
     target=b5893a3c3a8d0ab54be5d04de450b24d9e5aa149
 
+    # shellcheck disable=SC2086
     gh release create \
       --repo "${GITHUB_REPOSITORY}" \
       --title "${ref_name}" \
       --notes "${notes}" \
       --target "${target}" \
-      "${extra_flags}" \
+      ${extra_flags} \
       "${ref_name}"
   fi
 

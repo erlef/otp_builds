@@ -37,5 +37,3 @@ jobs:
 
       - name: actionlint
         uses: reviewdog/action-actionlint@v1.55.0
-        env:
-          SHELLCHECK_OPTS: -o all

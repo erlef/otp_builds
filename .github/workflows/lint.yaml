@@ -24,7 +24,6 @@ jobs:
         with:
           globs: |
             *.md
-          # .github/**/*.md
           config: .markdownlint.yaml
 
       - name: yamllint

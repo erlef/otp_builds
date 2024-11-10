@@ -52,7 +52,7 @@ build_openssl() {
     return
   fi
 
-  if [[ $version == 3* ]]; then
+  if [[ "$version" == 3* ]]; then
     local ref_name="openssl-${version}"
   else
     local ref_name="OpenSSL_${version//./_}"
@@ -66,6 +66,7 @@ build_openssl() {
   (
     cd "${src_dir}"
     git clean -dfx
+    # shellcheck disable=SC2086
     ./config no-shared --prefix="${rel_dir}" ${CFLAGS}
     make
     make install_sw
@@ -118,7 +119,7 @@ test_otp() {
     {ok, _} = application:ensure_all_started(crypto), io:format("crypto ok~n"),
     halt().'
 
-  if dyld_info ${OTP_DIR}/lib/crypto-*/priv/lib/crypto.so | tail -n +2 | grep -q openssl; then
+  if dyld_info "${OTP_DIR}/lib/crypto-*/priv/lib/crypto.so" | tail -n +2 | grep -q openssl; then
     echo "error: openssl dynamically linked"
     exit 1
   fi
@@ -128,7 +129,7 @@ test_otp() {
       wx:new(), io:format("wx ok~n"),
       halt().'
 
-    if dyld_info ${OTP_DIR}/lib/wx-*/priv/wxe_driver.so | tail -n +2 | grep -q wxwidgets; then
+    if dyld_info "${OTP_DIR}/lib/wx-*/priv/wxe_driver.so" | tail -n +2 | grep -q wxwidgets; then
       echo "error: wx dynamically linked"
       exit 1
     fi
@@ -188,7 +189,7 @@ build_otp() {
     fi
 
     if [[ "${WXWIDGETS_VERSION}" = disabled ]]; then
-      wxwidgets_flags=--without-{wx,observer,debugger,et}
+      wxwidgets_flags="--without-{wx,observer,debugger,et}"
     else
       wxwidgets_flags=""
     fi
@@ -206,6 +207,7 @@ build_otp() {
         ;;
     esac
 
+    # shellcheck disable=SC2086
     ./otp_build configure \
       --build="${target}" \
       --host="${target}" \
@@ -224,6 +226,7 @@ build_otp() {
 
   export PATH="${rel_dir}/bin:${PATH}"
 
+  # shellcheck disable=SC2310
   if ! test_otp; then
     rm -rf "${rel_dir}"
   fi
@@ -236,4 +239,5 @@ build_tgz() {
   tar czf "${OTP_TGZ}" --cd "${OTP_DIR}" .
 }
 
+# shellcheck disable=SC2068
 main $@

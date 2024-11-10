@@ -19,7 +19,7 @@ main() {
   : "${ATTESTATION:=}"
 
   if [[ -z "${OTP_REF+x}" ]]; then
-    OTP_REF=$(gh api repos/erlang/otp/commits/${OTP_REF_NAME} --jq .sha)
+    OTP_REF=$(gh api "repos/erlang/otp/commits/${OTP_REF_NAME}" --jq .sha)
   fi
 
   if [[ "${OTP_REF_NAME}" = master ]] || echo "${OTP_REF_NAME}" | grep -q "^maint"; then
@@ -38,8 +38,8 @@ main() {
     else
       if ! echo "${ref_name}" | grep -qE 'maint|master'; then
         if [[ -f builds/aarch64-apple-darwin.csv ]]; then
-          latest_version=`cat builds/aarch64-apple-darwin.csv | cut -d"," -f1 | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1`
-          version=$(echo "$ref_name" | sed 's/OTP-//')
+          latest_version=$(cut -d"," -f1 < builds/aarch64-apple-darwin.csv | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1)
+          version=${ref_name/OTP-/}
 
           if [[ $(printf "%s\n%s" "$latest_version" "$version" | sort --reverse -V | head -1) != "$latest_version" ]]; then
             extra_flags="--latest"
@@ -56,7 +56,7 @@ main() {
       --title "${ref_name}" \
       --notes "${notes}" \
       --target "${target}" \
-      ${extra_flags} \
+      "${extra_flags}" \
       "${ref_name}"
   fi
 
@@ -107,4 +107,5 @@ main() {
     --field target="${target}"
 }
 
+# shellcheck disable=SC2068
 main $@

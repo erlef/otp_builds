@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.7
 
-      - name: ShellCheck
+      - name: shell scripts check
         uses: luizm/action-sh-checker@v0.9.0
         env:
           SHFMT_OPTS: -i 2 -d
@@ -29,5 +29,6 @@ jobs:
           otp-version: 27
           elixir-version: 1.17
 
-      - run: |
+      - name: exs format check
+        run: |
           mix format --check-formatted scripts/*.exs

@@ -22,5 +22,4 @@ jobs:
       - name: ShellCheck
         uses: luizm/action-sh-checker@v0.9.0
         env:
-          SHELLCHECK_OPTS: -o all
           SHFMT_OPTS: -i 4 -d

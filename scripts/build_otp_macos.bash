@@ -13,11 +13,10 @@ EOF
   local ref_name=$1
 
   case "${ref_name}" in
-      OTP-25* | OTP-26.0* | OTP-26.1)
-          WXWIDGETS_VERSION=disabled
-          ;;
-      *)
-          ;;
+  OTP-25* | OTP-26.0* | OTP-26.1)
+    WXWIDGETS_VERSION=disabled
+    ;;
+  *) ;;
   esac
 
   : "${BUILD_DIR:=${PWD}/tmp/otp_builds}"
@@ -195,16 +194,16 @@ build_otp() {
     fi
 
     case "${arch}" in
-      x86_64)
-        target="x86_64-apple-darwin"
-        ;;
-      arm64)
-        target="aarch64-apple-darwin"
-        ;;
-      *)
-        echo "Unknown architecture: ${arch}"
-        exit 1
-        ;;
+    x86_64)
+      target="x86_64-apple-darwin"
+      ;;
+    arm64)
+      target="aarch64-apple-darwin"
+      ;;
+    *)
+      echo "Unknown architecture: ${arch}"
+      exit 1
+      ;;
     esac
 
     # shellcheck disable=SC2086

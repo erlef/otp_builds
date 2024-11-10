@@ -42,13 +42,13 @@ push() {
   touch "${BUILDS_CSV}"
   sed -i.bak "/^${OTP_REF_NAME},/d" "${BUILDS_CSV}"
   rm "${BUILDS_CSV}.bak"
-  echo -ne "${OTP_REF_NAME},${OTP_REF},${date},${build_sha256},openssl-${OPENSSL_VERSION},wxwidgets-${WXWIDGETS_VERSION}\n$(cat "${BUILDS_CSV}")" > "${BUILDS_CSV}"
+  echo -ne "${OTP_REF_NAME},${OTP_REF},${date},${build_sha256},openssl-${OPENSSL_VERSION},wxwidgets-${WXWIDGETS_VERSION}\n$(cat "${BUILDS_CSV}")" >"${BUILDS_CSV}"
   sort --reverse --unique -k1,1 -o "${BUILDS_CSV}" "${BUILDS_CSV}"
   git add builds/
   GIT_AUTHOR_NAME="${GITHUB_ACTOR}" \
-  GIT_AUTHOR_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com" \
-  GIT_COMMITTER_NAME="github-actions[bot]" \
-  GIT_COMMITTER_EMAIL="github-actions[bot]@users.noreply.github.com" \
+    GIT_AUTHOR_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com" \
+    GIT_COMMITTER_NAME="github-actions[bot]" \
+    GIT_COMMITTER_EMAIL="github-actions[bot]@users.noreply.github.com" \
     git commit -m "${BUILDS_CSV}: Add ${OTP_REF_NAME}"
   git push origin "${target_branch}"
 }

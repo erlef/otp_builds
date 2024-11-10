@@ -8,16 +8,16 @@ main() {
 
   for arg in "$@"; do
     case "$arg" in
-      elixir@*)
-        elixir_version="${arg#elixir@}"
-        ;;
-      otp@*)
-        otp_version="${arg#otp@}"
-        ;;
-      *)
-        echo "error: invalid argument $arg" >&2
-        exit 1
-        ;;
+    elixir@*)
+      elixir_version="${arg#elixir@}"
+      ;;
+    otp@*)
+      otp_version="${arg#otp@}"
+      ;;
+    *)
+      echo "error: invalid argument $arg" >&2
+      exit 1
+      ;;
     esac
   done
 
@@ -27,9 +27,9 @@ main() {
 
   otp_release="${otp_version%%.*}"
 
-  if [ "${otp_version}" = "master" ] || \
-     [ "${otp_version}" = "latest" ] || \
-     echo "${otp_version}" | grep -q '^maint'; then
+  if [ "${otp_version}" = "master" ] ||
+    [ "${otp_version}" = "latest" ] ||
+    echo "${otp_version}" | grep -q '^maint'; then
     elixir_otp_release=27
   else
     elixir_otp_release=$otp_release
@@ -63,23 +63,23 @@ main() {
 install_otp() {
   os=$(uname -s)
   case "$os" in
-    Darwin) os=darwin ;;
-    Linux) os=linux ;;
-    MINGW64*) os=windows ;;
-    *) echo "error: unsupported OS: $os." && exit 1 ;;
+  Darwin) os=darwin ;;
+  Linux) os=linux ;;
+  MINGW64*) os=windows ;;
+  *) echo "error: unsupported OS: $os." && exit 1 ;;
   esac
 
   arch=$(uname -m)
   case "$arch" in
-    x86_64)
-      macos_target=x86_64-apple-darwin
-      linux_target=amd64
-      ;;
-    aarch64|arm64)
-      macos_target=aarch64-apple-darwin
-      linux_target=arm64
-      ;;
-    *) echo "error: unsupported architecture: $arch." && exit 1 ;;
+  x86_64)
+    macos_target=x86_64-apple-darwin
+    linux_target=amd64
+    ;;
+  aarch64 | arm64)
+    macos_target=aarch64-apple-darwin
+    linux_target=arm64
+    ;;
+  *) echo "error: unsupported architecture: $arch." && exit 1 ;;
   esac
 
   if [ ! -d "$otp_dir/bin" ]; then

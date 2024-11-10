@@ -2,7 +2,7 @@
 set -euo pipefail
 
 usage() {
-  cat<<EOF
+  cat <<EOF
 ref_name=OTP-27.1.2; \
   OTP_REF_NAME="${ref_name}" \
   OPENSSL_VERSION=3.1.6 \
@@ -38,7 +38,7 @@ main() {
     else
       if ! echo "${ref_name}" | grep -qE 'maint|master'; then
         if [[ -f builds/aarch64-apple-darwin.csv ]]; then
-          latest_version=$(cut -d"," -f1 < builds/aarch64-apple-darwin.csv | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1)
+          latest_version=$(cut -d"," -f1 <builds/aarch64-apple-darwin.csv | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1)
           version=${ref_name/OTP-/}
 
           if [[ $(printf "%s\n%s" "$latest_version" "$version" | sort --reverse -V | head -1) != "$latest_version" ]]; then
@@ -62,18 +62,18 @@ main() {
 
   arch=$(uname -m)
   case "${arch}" in
-    x86_64)
-      target="x86_64-apple-darwin"
-      legacy_target="macos-amd64"
-      ;;
-    arm64)
-      target="aarch64-apple-darwin"
-      legacy_target="macos-arm64"
-      ;;
-    *)
-      echo "Unknown architecture: ${arch}"
-      exit 1
-      ;;
+  x86_64)
+    target="x86_64-apple-darwin"
+    legacy_target="macos-amd64"
+    ;;
+  arm64)
+    target="aarch64-apple-darwin"
+    legacy_target="macos-arm64"
+    ;;
+  *)
+    echo "Unknown architecture: ${arch}"
+    exit 1
+    ;;
   esac
 
   mkdir -p /tmp/otp_builds

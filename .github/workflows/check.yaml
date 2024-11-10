@@ -22,4 +22,12 @@ jobs:
       - name: ShellCheck
         uses: luizm/action-sh-checker@v0.9.0
         env:
-          SHFMT_OPTS: -i 4 -d
+          SHFMT_OPTS: -i 2 -d
+
+      - uses: erlef/setup-beam@v1.18.2
+        with:
+          otp-version: 27
+          elixir-version: 1.17
+
+      - run: |
+          mix format --check-formatted scripts/*.exs

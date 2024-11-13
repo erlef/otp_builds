@@ -1,0 +1,34 @@
+---
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch: {}
+
+name: Checks
+
+jobs:
+  checks:
+    name: Checks
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4.1.7
+
+      - name: shell scripts check
+        uses: luizm/action-sh-checker@v0.9.0
+        env:
+          SHFMT_OPTS: -i 2 -d
+
+      - uses: erlef/setup-beam@v1.18.2
+        with:
+          otp-version: 27
+          elixir-version: 1.17
+
+      - name: exs format check
+        run: |
+          mix format --check-formatted scripts/*.exs

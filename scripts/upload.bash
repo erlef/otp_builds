@@ -2,7 +2,7 @@
 set -euo pipefail
 
 usage() {
-  cat<<EOF
+  cat <<EOF
 ref_name=OTP-27.1.2; \
   OTP_REF_NAME="${ref_name}" \
   OPENSSL_VERSION=3.1.6 \
@@ -19,7 +19,7 @@ main() {
   : "${ATTESTATION:=}"
 
   if [[ -z "${OTP_REF+x}" ]]; then
-    OTP_REF=$(gh api repos/erlang/otp/commits/${OTP_REF_NAME} --jq .sha)
+    OTP_REF=$(gh api "repos/erlang/otp/commits/${OTP_REF_NAME}" --jq .sha)
   fi
 
   if [[ "${OTP_REF_NAME}" = master ]] || echo "${OTP_REF_NAME}" | grep -q "^maint"; then
@@ -38,8 +38,8 @@ main() {
     else
       if ! echo "${ref_name}" | grep -qE 'maint|master'; then
         if [[ -f builds/aarch64-apple-darwin.csv ]]; then
-          latest_version=`cat builds/aarch64-apple-darwin.csv | cut -d"," -f1 | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1`
-          version=$(echo "$ref_name" | sed 's/OTP-//')
+          latest_version=$(cut -d"," -f1 <builds/aarch64-apple-darwin.csv | grep OTP- | sed 's/OTP-//' | sort --reverse -V | head -1)
+          version=${ref_name/OTP-/}
 
           if [[ $(printf "%s\n%s" "$latest_version" "$version" | sort --reverse -V | head -1) != "$latest_version" ]]; then
             extra_flags="--latest"
@@ -51,6 +51,7 @@ main() {
     # Initial commit
     target=b5893a3c3a8d0ab54be5d04de450b24d9e5aa149
 
+    # shellcheck disable=SC2086
     gh release create \
       --repo "${GITHUB_REPOSITORY}" \
       --title "${ref_name}" \
@@ -62,18 +63,18 @@ main() {
 
   arch=$(uname -m)
   case "${arch}" in
-    x86_64)
-      target="x86_64-apple-darwin"
-      legacy_target="macos-amd64"
-      ;;
-    arm64)
-      target="aarch64-apple-darwin"
-      legacy_target="macos-arm64"
-      ;;
-    *)
-      echo "Unknown architecture: ${arch}"
-      exit 1
-      ;;
+  x86_64)
+    target="x86_64-apple-darwin"
+    legacy_target="macos-amd64"
+    ;;
+  arm64)
+    target="aarch64-apple-darwin"
+    legacy_target="macos-arm64"
+    ;;
+  *)
+    echo "Unknown architecture: ${arch}"
+    exit 1
+    ;;
   esac
 
   mkdir -p /tmp/otp_builds
@@ -107,4 +108,5 @@ main() {
     --field target="${target}"
 }
 
+# shellcheck disable=SC2068
 main $@

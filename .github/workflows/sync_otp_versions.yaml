@@ -1,5 +1,6 @@
+---
 name: Sync OTP versions
-on:
+"on":
   workflow_dispatch:
   schedule:
     # Run every 30min

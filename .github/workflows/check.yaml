@@ -7,13 +7,10 @@ on:
     branches:
       - "*"
   workflow_dispatch: {}
-
 jobs:
   checks:
     name: Checks
-
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4.1.7
 

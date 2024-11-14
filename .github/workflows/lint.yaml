@@ -1,7 +1,6 @@
----
 name: Lint
 
-"on":
+on:
   push:
     branches:
       - main

@@ -1,7 +1,5 @@
----
 name: Lint
-
-"on":
+on:
   push:
     branches:
       - main
@@ -9,13 +7,10 @@ name: Lint
     branches:
       - "*"
   workflow_dispatch: {}
-
 jobs:
   lint:
     name: Lint
-
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4.1.7
 

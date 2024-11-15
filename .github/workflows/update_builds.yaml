@@ -1,6 +1,5 @@
----
 name: Update builds.csv
-"on":
+on:
   workflow_dispatch:
     inputs:
       otp-ref-name:

@@ -1,5 +1,5 @@
----
-"on":
+name: Checks
+on:
   push:
     branches:
       - main
@@ -7,15 +7,10 @@
     branches:
       - "*"
   workflow_dispatch: {}
-
-name: Checks
-
 jobs:
   checks:
     name: Checks
-
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4.1.7
 

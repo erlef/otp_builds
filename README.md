@@ -85,4 +85,4 @@ previous section, for example:
 
 ## License
 
-[Apache-2.0](./LICENSE)
+[Apache-2.0](./LICENSE.txt)

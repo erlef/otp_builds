@@ -30,6 +30,8 @@ EOF
   export MAKEFLAGS="-j${n}"
   export CFLAGS="-Os -fno-common -mmacosx-version-min=11.0"
 
+  ulimit -n 65536
+
   build_openssl "${OPENSSL_VERSION}"
 
   if [[ "${WXWIDGETS_VERSION}" != disabled ]]; then

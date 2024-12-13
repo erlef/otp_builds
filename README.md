@@ -81,7 +81,7 @@ previous section, for example:
 
     curl -fLO https://github.com/erlef/otp_builds/releases/download/OTP-27.1.2/otp-aarch64-apple-darwin.tar.gz
     checksum=$(curl -fsSL https://github.com/erlef/otp_builds/raw/main/builds/aarch64-apple-darwin.csv | grep OTP-27.1.2, | cut -d"," -f4)
-    sha256 otp-aarch64-apple-darwin.tar.gz --check $checksum
+    shasum -a 256 -c <<< "$checksum  otp-aarch64-apple-darwin.tar.gz"
 
 ## License
 

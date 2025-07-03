@@ -39,7 +39,7 @@ jobs:
               os: macos-14
               target: aarch64-apple-darwin
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - name: Check OTP_REF_NAME
         run: |
@@ -60,20 +60,20 @@ jobs:
         if: ${{ contains(env.OTP_REF_NAME, 'OTP-25') || contains(env.OTP_REF_NAME, 'maint-25') }}
         run: echo "OPENSSL_VERSION=1.1.1w" >> "$GITHUB_ENV"
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v4.2.3
         if: ${{ env.SKIP != 'true' }}
         with:
           path: ${{ env.OPENSSL_DIR }}
           key: openssl-${{ env.OPENSSL_VERSION }}-${{ matrix.pair.target }}
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v4.2.3
         if: ${{ env.SKIP != 'true' }}
         with:
           path: ${{ env.WXWIDGETS_DIR }}
           key: wxwidgets-${{ env.WXWIDGETS_VERSION }}-${{ matrix.pair.target }}
 
       # # Uncomment when testing
-      # - uses: actions/cache@v4
+      # - uses: actions/cache@v4.2.3
       #   id: otp-cache
       #   with:
       #     path: ${{ env.OTP_DIR }}
@@ -90,7 +90,7 @@ jobs:
 
       - name: "Attest build provenance"
         if: ${{ env.SKIP != 'true' }}
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v1.4.4
         id: attest-build-provenance
         with:
           subject-path: ${{ env.OTP_TGZ }}

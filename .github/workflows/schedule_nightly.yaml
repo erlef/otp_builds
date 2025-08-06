@@ -1,18 +1,19 @@
-name: Sync OTP versions
+name: Schedule building nightly OTP versions
 on:
+  workflow_dispatch:
   schedule:
     # Run at 00:00
     - cron: '0 0 * * *'
 jobs:
   sync_otp_versions:
-    name: "Sync OTP versions"
+    name: "Schedule building nightly OTP versions"
     runs-on: ubuntu-latest
     permissions:
       actions: write
     steps:
       - uses: actions/checkout@v4.2.2
 
-      - name: "Sync nightly"
+      - name: "Schedule build"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

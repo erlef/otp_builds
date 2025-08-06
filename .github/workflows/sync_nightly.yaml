@@ -16,7 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for ref_name in master maint maint-{25,26,27}; do
+          for ref_name in master maint maint-{25,26,27,28}; do
             ref=$(gh api repos/erlang/otp/commits/"$ref_name" --jq .sha)
             gh workflow run build.yaml --field otp-ref-name="$ref_name" --field otp-ref="$ref"
           done

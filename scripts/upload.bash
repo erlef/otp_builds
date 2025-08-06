@@ -30,7 +30,14 @@ main() {
     notes="Automated build for https://github.com/erlang/otp/releases/tag/${OTP_REF_NAME}."
   fi
 
-  if ! gh release view "${ref_name}"; then
+  if gh release view "${ref_name}"; then
+    if echo "${ref_name}" | grep -qE 'latest'; then
+      gh release edit \
+        --repo "${GITHUB_REPOSITORY}" \
+        --notes "${notes}" \
+        "${ref_name}"
+    fi
+  else
     extra_flags="--latest=false"
 
     if echo "${ref_name}" | grep -qE 'rc'; then

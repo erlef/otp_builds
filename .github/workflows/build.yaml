@@ -39,7 +39,7 @@ jobs:
               os: macos-14
               target: aarch64-apple-darwin
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v5.0.0
 
       - name: Check OTP_REF_NAME
         run: |

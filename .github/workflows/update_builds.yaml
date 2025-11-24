@@ -26,7 +26,7 @@ jobs:
       TGZ: "otp-${{ inputs.target }}.tar.gz"
       BUILDS_CSV: "builds/${{ inputs.target }}.csv"
     steps:
-      - uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@v6.0.0
 
       - name: "Add ${{ env.OTP_REF_NAME }} to ${{ env.BUILDS_CSV }}"
         run: |

@@ -7,7 +7,7 @@ on:
       otp-ref:
         required: true
       openssl-version:
-        default: "3.1.6"
+        default: "3.5.5"
       wxwidgets-version:
         default: "3.2.6"
 jobs:

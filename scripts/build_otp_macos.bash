@@ -20,7 +20,7 @@ EOF
   esac
 
   : "${BUILD_DIR:=${PWD}/tmp/otp_builds}"
-  : "${OPENSSL_VERSION:=3.1.6}"
+  : "${OPENSSL_VERSION:=3.5.5}"
   : "${OPENSSL_DIR:=${BUILD_DIR}/openssl-${OPENSSL_VERSION}}"
   : "${WXWIDGETS_VERSION:=3.2.6}"
   : "${WXWIDGETS_DIR:=${BUILD_DIR}/wxwidgets-${WXWIDGETS_VERSION}}"

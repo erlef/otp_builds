@@ -18,19 +18,21 @@ statically linked.
 
 ## List of Builds
 
-| Target                  | OpenSSL | wxWidgets            |
-|-------------------------|---------|----------------------|
-| **OTP 25**              |         |                      |
-| `x86_64-apple-darwin`   | 1.1.1w  | N/A²                 |
-| `aarch64-apple-darwin`¹ | 1.1.1w  | N/A²                 |
-| **OTP 26**              |         |                      |
-| `*-apple-darwin`        | 3.1.6   | N/A² / 3.2.5         |
-| **OTP 27**              |         |                      |
-| `*-apple-darwin`        | 3.1.6   | 3.2.5                |
-| **OTP maint**³          |         |                      |
-| `*-apple-darwin`        | 3.1.6   | 3.2.5                |
-| **OTP master**³         |         |                      |
-| `*-apple-darwin`        | 3.1.6   | 3.2.5                |
+| Target                  | OpenSSL | wxWidgets    |
+| ----------------------- | ------- | ------------ |
+| **OTP 25**              |         |              |
+| `x86_64-apple-darwin`   | 1.1.1w  | N/A²         |
+| `aarch64-apple-darwin`¹ | 1.1.1w  | N/A²         |
+| **OTP 26**              |         |              |
+| `*-apple-darwin`        | 3.5.5   | N/A² / 3.2.5 |
+| **OTP 27**              |         |              |
+| `*-apple-darwin`        | 3.5.5   | 3.2.5        |
+| **OTP 28**              |         |              |
+| `*-apple-darwin`        | 3.5.5   | 3.2.5        |
+| **OTP maint**³          |         |              |
+| `*-apple-darwin`        | 3.5.5   | 3.2.5        |
+| **OTP master**³         |         |              |
+| `*-apple-darwin`        | 3.5.5   | 3.2.5        |
 
 ¹ JIT is disabled on OTP 25 on `aarch64-apple-darwin`.
 

@@ -95,11 +95,11 @@ jobs:
         with:
           subject-path: ${{ env.OTP_TGZ }}
 
-      # - name: "Upload"
-      #   if: ${{ env.SKIP != 'true' }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     ATTESTATION: ${{ steps.attest-build-provenance.outputs.bundle-path }}
-      #     WXWIDGETS_VERSION: ${{ inputs.wxwidgets-version }}
-      #   run: |
-      #     ./scripts/upload.bash
+      - name: "Upload"
+        if: ${{ env.SKIP != 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ATTESTATION: ${{ steps.attest-build-provenance.outputs.bundle-path }}
+          WXWIDGETS_VERSION: ${{ inputs.wxwidgets-version }}
+        run: |
+          ./scripts/upload.bash

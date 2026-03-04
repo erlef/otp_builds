@@ -10,9 +10,17 @@ on:
         default: "3.5.5"
       wxwidgets-version:
         default: "3.2.10"
+      target:
+        type: choice
+        default: "all"
+        options:
+          - all
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
 jobs:
   build_macos:
     name: "Build ${{ inputs.otp-ref-name }}-${{ matrix.pair.target }} (${{ matrix.pair.os }})"
+    if: ${{ inputs.target == 'all' || inputs.target == matrix.pair.target }}
     runs-on: ${{ matrix.pair.os }}
     permissions:
       actions: write

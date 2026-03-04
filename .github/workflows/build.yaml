@@ -9,7 +9,7 @@ on:
       openssl-version:
         default: "3.5.5"
       wxwidgets-version:
-        default: "3.2.6"
+        default: "3.2.10"
 jobs:
   build_macos:
     name: "Build ${{ inputs.otp-ref-name }}-${{ matrix.pair.target }} (${{ matrix.pair.os }})"

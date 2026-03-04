@@ -20,7 +20,6 @@ on:
 jobs:
   build_macos:
     name: "Build ${{ inputs.otp-ref-name }}-${{ matrix.pair.target }} (${{ matrix.pair.os }})"
-    if: ${{ inputs.target == 'all' || inputs.target == matrix.pair.target }}
     runs-on: ${{ matrix.pair.os }}
     permissions:
       actions: write
@@ -48,6 +47,12 @@ jobs:
               target: aarch64-apple-darwin
     steps:
       - uses: actions/checkout@v6.0.2
+
+      - name: Check target
+        run: |
+          if [[ "${{ inputs.target }}" != "all" && "${{ inputs.target }}" != "${{ matrix.pair.target }}" ]]; then
+            echo "SKIP=true" >> "$GITHUB_ENV"
+          fi
 
       - name: Check OTP_REF_NAME
         run: |

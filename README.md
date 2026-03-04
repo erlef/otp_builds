@@ -20,7 +20,7 @@ statically linked.
 
 List of builds can be found here:
 
-* `x86_64-apple-darwin` - <https://github.com/erlef/otp_builds/blob/main/builds/aarch64-apple-darwin.csv>
+* `x86_64-apple-darwin` - <https://github.com/erlef/otp_builds/blob/main/builds/x86_64-apple-darwin.csv>
 * `aarch64-apple-darwin` - <https://github.com/erlef/otp_builds/blob/main/builds/aarch64-apple-darwin.csv>
 
 Entries in the list of builds follow this pattern:

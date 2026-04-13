@@ -73,20 +73,20 @@ jobs:
         if: ${{ contains(env.OTP_REF_NAME, 'OTP-25') || contains(env.OTP_REF_NAME, 'maint-25') }}
         run: echo "OPENSSL_VERSION=1.1.1w" >> "$GITHUB_ENV"
 
-      - uses: actions/cache@v5.0.4
+      - uses: actions/cache@v5.0.5
         if: ${{ env.SKIP != 'true' }}
         with:
           path: ${{ env.OPENSSL_DIR }}
           key: openssl-${{ env.OPENSSL_VERSION }}-${{ matrix.pair.os }}-${{ matrix.pair.target }}
 
-      - uses: actions/cache@v5.0.4
+      - uses: actions/cache@v5.0.5
         if: ${{ env.SKIP != 'true' }}
         with:
           path: ${{ env.WXWIDGETS_DIR }}
           key: wxwidgets-${{ env.WXWIDGETS_VERSION }}-${{ matrix.pair.os }}-${{ matrix.pair.target }}
 
       # # Uncomment when testing
-      # - uses: actions/cache@v5.0.4
+      # - uses: actions/cache@v5.0.5
       #   id: otp-cache
       #   with:
       #     path: ${{ env.OTP_DIR }}

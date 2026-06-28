@@ -46,7 +46,7 @@ jobs:
               os: macos-15
               target: aarch64-apple-darwin
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v7.0.0
 
       - name: Check target
         run: |

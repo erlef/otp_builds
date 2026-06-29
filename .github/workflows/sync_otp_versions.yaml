@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.0
 
-      - uses: actions/cache@v5.0.5
+      - uses: actions/cache@v6.1.0
         with:
           path: ~/.elixir-install
           key: elixir-install

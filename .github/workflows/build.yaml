@@ -103,7 +103,7 @@ jobs:
 
       - name: "Attest build provenance"
         if: ${{ env.SKIP != 'true' }}
-        uses: actions/attest-build-provenance@v4.1.0
+        uses: actions/attest-build-provenance@v4.1.1
         id: attest-build-provenance
         with:
           subject-path: ${{ env.OTP_TGZ }}

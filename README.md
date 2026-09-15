@@ -138,7 +138,7 @@ kinds of tarball differ:
 | `wx` | Not built for OTP-25, OTP-26.0, and OTP-26.1 | Built for all versions |
 
 Both are relocatable and include documentation chunks in `lib/*/doc/chunks` for OTP-25 and
-OTP-26. From OTP-27 the documentation is embedded in the `.beam` files.
+OTP-26. From OTP-27 the documentation is embedded in the `.beam` files in all applications except edoc.
 
 The Linux layout may be changed to the macOS one in the future, at which point the
 builds.hex.pm-style tarballs will be deprecated.

@@ -118,7 +118,7 @@ test_otp() {
     erlang:system_info(system_version),
     erlang:system_info(system_architecture)]),
     {ok, _} = application:ensure_all_started(crypto), io:format("crypto ok~n"),
-    {ok, _} = code:get_doc(lists), io:format("docs ok~n"),
+    {ok, _} = code:get_doc(lists), {ok, _} = code:get_doc(edoc), io:format("docs ok~n"),
     halt().'
 
   if dyld_info "${OTP_DIR}/lib/crypto-*/priv/lib/crypto.so" | tail -n +2 | grep -q openssl; then

@@ -48,7 +48,7 @@ test_erl() {
     erlang:system_info(system_version),
     erlang:system_info(system_architecture)]),
     {ok, _} = application:ensure_all_started(crypto), io:format("crypto ok~n"),
-    {ok, _} = code:get_doc(lists), io:format("docs ok~n"),
+    {ok, _} = code:get_doc(lists), {ok, _} = code:get_doc(edoc), io:format("docs ok~n"),
     halt().'
 }
 

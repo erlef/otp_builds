@@ -1,6 +1,13 @@
 name: Sync OTP versions
 on:
   workflow_dispatch:
+    inputs:
+      limit:
+        description: "Maximum number of builds to dispatch"
+        default: "5"
+      dry-run:
+        type: boolean
+        default: false
   schedule:
     # Run every 30min
     - cron: '*/30 * * * *'
@@ -21,6 +28,8 @@ jobs:
       - name: "Sync OTP versions"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SYNC_LIMIT: ${{ inputs.limit || '5' }}
+          SYNC_DRY_RUN: ${{ inputs.dry-run && '1' || '0' }}
         run: |
           ./scripts/elixir-install.sh elixir@1.17.3 otp@27.1.2
           export PATH="$HOME/.elixir-install/installs/elixir/1.17.3-otp-27/bin:$PATH"

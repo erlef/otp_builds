@@ -15,8 +15,16 @@ on:
         default: "all"
         options:
           - all
+          - linux
+          - macos
           - x86_64-apple-darwin
           - aarch64-apple-darwin
+          - x86_64-unknown-linux-gnu-ubuntu-22.04
+          - aarch64-unknown-linux-gnu-ubuntu-22.04
+          - x86_64-unknown-linux-gnu-ubuntu-24.04
+          - aarch64-unknown-linux-gnu-ubuntu-24.04
+          - x86_64-unknown-linux-gnu-ubuntu-26.04
+          - aarch64-unknown-linux-gnu-ubuntu-26.04
 jobs:
   build_macos:
     name: "Build ${{ inputs.otp-ref-name }}-${{ matrix.pair.target }} (${{ matrix.pair.os }})"
@@ -33,6 +41,7 @@ jobs:
       OTP_REF_NAME: ${{ inputs.otp-ref-name }}
       OTP_DIR: /tmp/otp-${{ matrix.pair.target }}
       OTP_TGZ: /tmp/otp.tar.gz
+      TARGET: ${{ matrix.pair.target }}
       WXWIDGETS_VERSION: ${{ inputs.wxwidgets-version }}
       WXWIDGETS_DIR: /tmp/wxwidgets-${{ matrix.pair.target }}
     strategy:
@@ -48,26 +57,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.0
 
-      - name: Check target
+      - name: Check skip
         run: |
-          if [[ "${{ inputs.target }}" != "all" && "${{ inputs.target }}" != "${{ matrix.pair.target }}" ]]; then
-            echo "SKIP=true" >> "$GITHUB_ENV"
-          fi
-
-      - name: Check OTP_REF_NAME
-        run: |
-          if [[ "$OTP_REF_NAME" =~ maint-([0-9]+) ]]; then
-            version="${BASH_REMATCH[1]}"
-          elif [[ "$OTP_REF_NAME" =~ OTP-([0-9]+)(\.[0-9]+)* ]]; then
-            version="${BASH_REMATCH[1]}"
-          else
-            version=25
-          fi
-
-          if [[ "$version" -lt 25 ]]; then
-            echo "skipping builds for OTP older than OTP-25"
-            echo "SKIP=true" >> "$GITHUB_ENV"
-          fi
+          ./scripts/check_skip.bash "${{ inputs.target }}" "$TARGET" "$OTP_REF_NAME"
 
       - name: Update OPENSSL_VERSION
         if: ${{ contains(env.OTP_REF_NAME, 'OTP-25') || contains(env.OTP_REF_NAME, 'maint-25') }}
@@ -114,5 +106,55 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ATTESTATION: ${{ steps.attest-build-provenance.outputs.bundle-path }}
           WXWIDGETS_VERSION: ${{ inputs.wxwidgets-version }}
+        run: |
+          ./scripts/upload.bash
+
+  build_linux:
+    name: "Build ${{ inputs.otp-ref-name }}-${{ matrix.target }}"
+    runs-on: ${{ startsWith(matrix.target, 'aarch64') && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    permissions:
+      actions: write
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      OTP_REF: ${{ inputs.otp-ref }}
+      OTP_REF_NAME: ${{ inputs.otp-ref-name }}
+      OTP_TGZ: /tmp/otp.tar.gz
+      TARGET: ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - x86_64-unknown-linux-gnu-ubuntu-22.04
+          - aarch64-unknown-linux-gnu-ubuntu-22.04
+          - x86_64-unknown-linux-gnu-ubuntu-24.04
+          - aarch64-unknown-linux-gnu-ubuntu-24.04
+          - x86_64-unknown-linux-gnu-ubuntu-26.04
+          - aarch64-unknown-linux-gnu-ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - name: Check skip
+        run: |
+          ./scripts/check_skip.bash "${{ inputs.target }}" "$TARGET" "$OTP_REF_NAME"
+
+      - name: "Build OTP"
+        if: ${{ env.SKIP != 'true' }}
+        run: |
+          ./scripts/build_otp_linux.bash "$OTP_REF_NAME" "$TARGET"
+
+      - name: "Attest build provenance"
+        if: ${{ env.SKIP != 'true' }}
+        uses: actions/attest-build-provenance@v4.1.1
+        id: attest-build-provenance
+        with:
+          subject-path: ${{ env.OTP_TGZ }}
+
+      - name: "Upload"
+        if: ${{ env.SKIP != 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ATTESTATION: ${{ steps.attest-build-provenance.outputs.bundle-path }}
         run: |
           ./scripts/upload.bash
